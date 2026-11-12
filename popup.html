@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Burnie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F2E8;
+      --cream-dark: #EDE9D8;
+      --olive: #2C3B2D;
+      --olive-light: #3D5040;
+      --peach: #E8A87C;
+      --text: #1a1a1a;
+      --text-soft: #5a5a4a;
+      --white: #FFFFFF;
+      --border: rgba(44,59,45,0.12);
+      --font-display: 'Nunito', system-ui, sans-serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 264px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--text);
+    }
+
+    /* HEADER */
+    .popup-header {
+      background: var(--olive);
+      padding: 15px 14px 13px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .popup-header::before {
+      content: '';
+      position: absolute;
+      top: -18px; right: -18px;
+      width: 72px; height: 72px;
+      background: rgba(245,242,232,0.05);
+      border-radius: 50%;
+    }
+
+    .popup-header-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .popup-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--olive-light);
+      border: 2px solid rgba(245,242,232,0.15);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-avatar-inner {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(245,242,232,0.12);
+    }
+
+    .popup-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+    }
+
+    .popup-subtitle {
+      font-size: 9px;
+      color: rgba(245,242,232,0.45);
+      margin-top: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* STATUS */
+    .popup-status {
+      padding: 5px 14px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .status-text { font-size: 10px; font-weight: 600; color: #22c55e; }
+
+    /* BODY */
+    .popup-body {
+      padding: 12px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: var(--white);
+    }
+
+    /* DRAWER CARDS */
+    .drawer-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .drawer-btn {
+      background: var(--cream);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      text-align: left;
+      padding: 12px 12px;
+      transition: background 0.18s;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .drawer-btn:hover { background: var(--white); }
+    .drawer-btn:hover .d-label { color: var(--peach); }
+    .drawer-btn:hover .d-num { color: var(--olive); }
+    .drawer-btn:hover .d-name { color: var(--olive); }
+
+    .d-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 4px;
+      transition: color 0.18s;
+    }
+
+    .d-num {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1;
+      transition: color 0.18s;
+    }
+
+    .d-sub { font-size: 11px; color: var(--text-soft); font-weight: 500; }
+
+    .d-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+      transition: color 0.18s;
+    }
+
+    .d-contacts { font-size: 10px; color: var(--text-soft); margin-top: 2px; }
+
+    .caret-bg {
+      width: 17px; height: 17px;
+      border-radius: 50%;
+      background: var(--cream-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.18s;
+    }
+
+    .caret-bg svg { width: 8px; height: 8px; transition: transform 0.25s; }
+    .caret-bg.open svg { transform: rotate(180deg); }
+
+    .drawer-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.32s ease;
+      background: var(--white);
+    }
+
+    .drawer-body.open { max-height: 400px; }
+    .drawer-inner { padding: 0 12px 14px; }
+
+    /* MINI CARDS */
+    .mini-grid { display: flex; gap: 6px; margin: 12px 0; }
+
+    .mini-card {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 11px 10px;
+      flex: 1;
+    }
+
+    .mini-num {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mini-label { font-size: 9px; color: var(--text-soft); line-height: 1.3; font-weight: 500; }
+
+    /* MOST COMMON */
+    .most-common { border-top: 1px solid var(--border); padding-top: 10px; }
+
+    .most-common-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 7px;
+    }
+
+    .accent-block { border-left: 2.5px solid var(--peach); padding-left: 8px; }
+    .accent-block-title { font-size: 12px; font-weight: 700; color: var(--text); }
+    .accent-block-sub { font-size: 10px; color: var(--text-soft); margin-top: 2px; }
+
+    /* BARS */
+    .bar-wrap { padding: 8px 0; border-bottom: 1px solid rgba(44,59,45,0.06); }
+    .bar-wrap:last-child { border-bottom: none; }
+    .bar-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .bar-label { font-size: 11px; color: var(--text-soft); font-weight: 500; }
+    .bar-pct { font-size: 11px; font-weight: 700; color: var(--text); font-family: var(--font-display); }
+    .bar-track { height: 3px; background: var(--cream-dark); border-radius: 3px; }
+    .bar-fill { height: 3px; border-radius: 3px; background: var(--peach); }
+
+    /* BOUNDARY HELD */
+    .boundary-held { padding: 10px 0 0; }
+    .boundary-held-inner { border-left: 2.5px solid var(--peach); padding-left: 8px; }
+    .bh-label { font-size: 9px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+    .bh-row { display: flex; align-items: baseline; gap: 5px; }
+    .bh-num { font-family: var(--font-display); font-size: 18px; font-weight: 900; color: var(--peach); }
+    .bh-sub { font-size: 11px; color: var(--text-soft); }
+
+    /* EMPTY */
+    .empty-state { padding: 20px 13px; text-align: center; }
+    .empty-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .empty-sub { font-size: 11.5px; color: var(--text-soft); line-height: 1.6; }
+
+    /* LOADING */
+    .loading { padding: 20px 13px; text-align: center; font-size: 12px; color: var(--text-soft); }
+
+    /* FOOTER */
+    .popup-footer {
+      padding: 7px 13px 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--white);
+    }
+
+    .footer-link {
+      font-size: 10px;
+      color: var(--text-soft);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+    }
+
+    .footer-link:hover { color: var(--olive); }
+    .footer-version { font-size: 10px; color: rgba(44,59,45,0.18); }
+  </style>
+</head>
+<body>
+
+  <div class="popup-header">
+    <div class="popup-header-inner">
+      <div class="popup-avatar">
+        <div class="popup-avatar-inner"></div>
+      </div>
+      <div>
+        <div class="popup-title">Burnie</div>
+        <div class="popup-subtitle">Boundary Guardian</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup-status">
+    <div class="status-dot"></div>
+    <span class="status-text">Active on Gmail</span>
+  </div>
+
+  <div id="popup-loading" class="loading">Loading your stats...</div>
+
+  <div id="popup-content" style="display:none;">
+    <div class="popup-body">
+
+      <div class="drawer-card">
+        <button class="drawer-btn" id="week-btn">
+          <div>
+            <div class="d-label">This week</div>
+            <div style="display:flex;align-items:baseline;gap:5px">
+              <span class="d-num" id="stat-total">0</span>
+              <span class="d-sub">violations</span>
+            </div>
+          </div>
+          <div class="caret-bg" id="wc">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1 3l3 3 3-3" stroke="#2C3B2D" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </button>
+        <div class="drawer-body" id="wd">
+          <div class="drawer-inner">
+            <div class="mini-grid">
+              <div class="mini-card">
+                <div class="mini-num" style="color:#2C3B2D" id="stat-responded">0</div>
+                <div class="mini-label">Declined</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-num" style="color:#E8A87C" id="stat-dismissed">0</div>
+                <div class="mini-label">Skipped</div>
+              </div>
+            </div>
+            <div class="most-common" id="most-common-section" style="display:none;">
+              <div class="most-common-label">Most common</div>
+              <div class="accent-block" id="most-common-block">
+                <div class="accent-block-title" id="most-common-type">—</div>
+                <div class="accent-block-sub" id="most-common-count">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-card" id="sender-card" style="display:none;">
+        <button class="drawer-btn" id="sender-btn">
+          <div>
+            <div class="d-label">Worth watching</div>
+            <div class="d-name" id="sender-name">—</div>
+            <div class="d-contacts" id="sender-contacts">—</div>
+          </div>
+          <div class="caret-bg" id="sc">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1 3l3 3 3-3" stroke="#2C3B2D" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </button>
+        <div class="drawer-body" id="sd">
+          <div class="drawer-inner">
+            <div style="margin-top:12px" id="sender-bars"></div>
+            <div class="boundary-held" id="boundary-held-section" style="display:none;">
+              <div class="boundary-held-inner">
+                <div class="bh-label">Boundary held</div>
+                <div class="bh-row">
+                  <span class="bh-num" id="boundary-held-num">0%</span>
+                  <span class="bh-sub" id="boundary-held-sub">with —</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="empty-state" class="empty-state" style="display:none;">
+        <div class="empty-title">All quiet this week</div>
+        <div class="empty-sub">Burnie is watching Gmail for boundary-crossing requests.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="popup-footer">
+    <button class="footer-link" id="btn-clear">Clear my data</button>
+    <span class="footer-version">v1.0</span>
+  </div>
+
+  
+  <script src="storage.js"></script>
+  <script src="patterns.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
